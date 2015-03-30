@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 @Entity
 public class Answer {
 
+    //<editor-fold desc="Attributes">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -24,6 +25,7 @@ public class Answer {
 
     @ManyToOne
     Question question;
+    //</editor-fold>
 
     //<editor-fold desc="Getters&Setters">
 
