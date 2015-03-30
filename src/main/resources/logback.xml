@@ -4,6 +4,6 @@
     <property name="LOG_FILE" value="./logs/spring.log" />  <!--sets the LOG file in base.xml above, the same output goes to console-->
 
 
-    <logger name="org.springframework.web" level="TRACE" />
-    <logger name="org.springframework.boot" level="TRACE" />
+    <logger name="org.springframework.web" level="WARN" />
+    <logger name="org.springframework.boot" level="WARN" />
 </configuration>
