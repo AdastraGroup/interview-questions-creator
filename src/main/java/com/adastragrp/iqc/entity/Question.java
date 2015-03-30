@@ -1,5 +1,7 @@
 package com.adastragrp.iqc.entity;
 
+import org.springframework.data.rest.core.config.Projection;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -8,10 +10,23 @@ import java.util.Set;
 @Entity
 public class Question {
 
-    public static enum QuestionType {
-        MULTI_CHOICE, ONE_CHOICE, TEXT_ANSWER
-    }
+    public static enum QuestionType {MULTI_CHOICE, ONE_CHOICE, TEXT_ANSWER}
 
+    //<editor-fold desc="Projections">
+    @Projection(name = "InlineAnswers", types = {Question.class})
+    public static interface InlineAnswers {
+
+        long getId();
+
+        String getText();
+
+        QuestionType getQuestionType();
+
+        Set<Answer> getAnswers();
+    }
+    //</editor-fold>s
+
+    //<editor-fold desc="Attributes">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -27,6 +42,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question")
     private Set<Answer> answers = new HashSet<>();
+    //</editor-fold>
 
     //<editor-fold desc="Getters&Setters">
 
