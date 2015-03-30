@@ -12,6 +12,9 @@ import java.util.Set;
 @Entity
 public class Interview {
 
+    public static enum State {DRAFT, FINISHED, BEING_APPROVED, APPROVED, PUBLISHED, ASSIGNED, COMPLETED}
+
+    //<editor-fold desc="Attributes">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -37,17 +40,19 @@ public class Interview {
     @NotNull
     private boolean evaluationDescriptionMarkup;
 
+    @Enumerated(EnumType.STRING)
+    private State state;
+
     private LocalDateTime created;
-
-
+    //</editor-fold>
 
     @PrePersist
     private void prePersist() {
-        created = LocalDateTime.now();
+        this.created = LocalDateTime.now();
     }
 
-
     //<editor-fold desc="Getters&Setters">
+
     public long getId() {
         return id;
     }
@@ -92,24 +97,35 @@ public class Interview {
         return descriptionMarkup;
     }
 
-    public void setDescriptionMarkup(boolean isDescriptionMarkup) {
-        this.descriptionMarkup = isDescriptionMarkup;
+    public void setDescriptionMarkup(boolean descriptionMarkup) {
+        this.descriptionMarkup = descriptionMarkup;
     }
 
     public boolean isEvaluationDescriptionMarkup() {
         return evaluationDescriptionMarkup;
     }
 
-    public void setEvaluationDescriptionMarkup(boolean isEvaluationDescriptionMarkup) {
-        this.evaluationDescriptionMarkup = isEvaluationDescriptionMarkup;
+    public void setEvaluationDescriptionMarkup(boolean evaluationDescriptionMarkup) {
+        this.evaluationDescriptionMarkup = evaluationDescriptionMarkup;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public LocalDateTime getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    /*
+    public void setCreated(LocalDateTime created) {             // should not be able to setup - it is set once in prepersist block
         this.created = created;
     }
+    */
+
     //</editor-fold>
 }
