@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Set;
 
-@RepositoryRestResource
+@RepositoryRestResource(excerptProjection = Interview.InlineQuestions.class)
 public interface InterviewRepository extends PagingAndSortingRepository<Interview, Long> {
 
     @Override

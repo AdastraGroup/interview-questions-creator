@@ -1,6 +1,7 @@
 package com.adastragrp.iqc.entity;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.rest.core.config.Projection;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,30 @@ import java.util.Set;
 public class Interview {
 
     public static enum State {DRAFT, FINISHED, BEING_APPROVED, APPROVED, PUBLISHED, ASSIGNED, COMPLETED}
+
+    //<editor-fold desc="Projections">
+    @Projection(name = "InlineQuestions", types = {Interview.class})
+    public static interface InlineQuestions {
+
+        long getId();
+
+        String getName();
+
+        String getDescription();
+
+        String getEvaluationDescription();
+
+        Set<Question> getQuestions();
+
+        boolean isDescriptionMarkup();
+
+        boolean isEvaluationDescriptionMarkup();
+
+        State getState();
+
+        LocalDateTime getCreated();
+    }
+    //</editor-fold>
 
     //<editor-fold desc="Attributes">
     @Id
@@ -31,7 +56,7 @@ public class Interview {
     @Size(max = 300)
     private String evaluationDescription;
 
-    @OneToMany(mappedBy = "interview")
+    @OneToMany(mappedBy = "interview", fetch = FetchType.EAGER)
     private Set<Question> questions = new HashSet<>();
 
     @NotNull

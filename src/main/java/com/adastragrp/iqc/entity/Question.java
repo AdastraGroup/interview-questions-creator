@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 public class Question {
 
-    public static enum QuestionType {MULTI_CHOICE, ONE_CHOICE, TEXT_ANSWER}
+    public static enum QuestionType {CHECKBOX, RADIO, TEXT_AREA}
 
     //<editor-fold desc="Projections">
     @Projection(name = "InlineAnswers", types = {Question.class})
@@ -40,7 +40,7 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private QuestionType questionType;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<Answer> answers = new HashSet<>();
     //</editor-fold>
 
