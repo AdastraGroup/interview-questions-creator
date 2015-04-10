@@ -24,7 +24,7 @@ public class Question {
 
         Set<Answer> getAnswers();
     }
-    //</editor-fold>s
+    //</editor-fold>
 
     //<editor-fold desc="Attributes">
     @Id
