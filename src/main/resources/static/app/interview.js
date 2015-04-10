@@ -9,7 +9,7 @@ load: function() {
 		this.setState({interviews: value._embedded.interviews});
 	}.bind(this),
 		error: function(xhr, status, err) {
-		console.error("../interviews", status, err.toString());
+		console.error("/api/interviews", status, err.toString());
 	}.bind(this)
 	});
 },
