@@ -44,6 +44,25 @@ public class Question {
     private Set<Answer> answers = new HashSet<>();
     //</editor-fold>
 
+    //<editor-fold desc="Equals&HashCode">
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Question)) return false;
+
+        Question question = (Question) o;
+
+        if (id != question.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
+    //</editor-fold>
+
     //<editor-fold desc="Getters&Setters">
 
     public long getId() {

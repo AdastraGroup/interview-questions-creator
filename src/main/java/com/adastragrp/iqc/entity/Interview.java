@@ -76,6 +76,25 @@ public class Interview {
         this.created = LocalDateTime.now();
     }
 
+    //<editor-fold desc="Equals&HashCode">
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Interview)) return false;
+
+        Interview interview = (Interview) o;
+
+        if (id != interview.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
+    //</editor-fold>
+
     //<editor-fold desc="Getters&Setters">
 
     public long getId() {

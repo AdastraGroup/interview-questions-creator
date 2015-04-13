@@ -72,4 +72,22 @@ public class Answer {
 
     //</editor-fold>
 
+    //<editor-fold desc="Equals&HashCode">
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Answer)) return false;
+
+        Answer answer = (Answer) o;
+
+        if (id != answer.id) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
+    //</editor-fold>
 }
