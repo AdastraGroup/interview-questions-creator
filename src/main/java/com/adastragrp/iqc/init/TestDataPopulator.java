@@ -85,5 +85,7 @@ public class TestDataPopulator {
         a5.setQuestion(q3);
 
         answerRepository.save(Arrays.asList(a1, a2, a3, a4, a5));
+
+        questionRepository.delete(q3);
     }
 }
