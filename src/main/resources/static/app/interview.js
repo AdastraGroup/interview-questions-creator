@@ -86,7 +86,7 @@ var that = this;
     }
 
     var answers = this.props.answers.map(function (answer) {
-        return ( <input key={answer.id} type={that.props.questionType} name="neco" >{answer.text}</input>);
+        return ( <input key={answer.id} type={that.props.questionType} name="answers" >{answer.text}</input>);
     });
     return <div className={this.props.questionType}>{answers}</div>
 
