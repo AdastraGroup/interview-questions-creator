@@ -1,95 +1,110 @@
-var Interviews = React.createClass({
+var Interview = React.createClass({
 
 getInitialState: function() {
-	return {interviews: []};
+	return {interview: {}, name: "", description: "", evaluationDescription: ""};
 },
 load: function() {
-	$.ajax({ url: "/api/interviews", dataType: 'json',
-	success: function(value) {
-		this.setState({interviews: value._embedded.interviews});
-	}.bind(this),
-		error: function(xhr, status, err) {
-		console.error("/api/interviews", status, err.toString());
-	}.bind(this)
+	$.ajax({    url: "/api/interviews/" + this.props.id, dataType: 'json',
+	            success: function(interview) {
+	                this.setState({interview: interview, name: interview.name, description: interview.description, evaluationDescription: interview.evaluationDescription});
+
+	                 } .bind(this),
+	            error: function(xhr, status, err) { console.error("/api/interviews/" + this.props.id, status, err.toString());}.bind(this)
+	});
+},
+update: function(key, data) {
+
+	$.ajax({ url: "/api/interviews/" + this.props.id, data: JSON.stringify(data), dataType: 'json', type: 'PATCH', headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+		     success: function(result)           { this.onUpdateSuccess(key); }.bind(this),
+		     error:   function(xhr, status, err) { this.onUpdateFailure(key, "/api/interviews/" + this.props.id, status, err); }.bind(this)
 	});
 },
 componentDidMount: function() {
     this.load();
 },
+onChange: function(key, event) {
+
+    var a = {};
+    a[key] = event.target.value;
+
+    this.setState( a );
+},
+onBlur: function(key) {
+
+    if(this.state[key] == this.state.interview[key]) return;
+
+    var a = {};
+    a[key] = this.state[key].trim()
+
+
+    if(a[key] == this.state.interview[key]){
+        this.setState( a );
+        return;
+    }
+
+    this.update(key, a);
+},
+onUpdateSuccess: function(key) {
+
+    var a = {};
+    a[key] = this.state[key].trim();
+
+    this.setState(a);
+    this.state.interview[key] = a[key];
+
+},
+onUpdateFailure: function(key, url, status, err) {
+    console.error(url, status, err.toString());
+
+    var a = {};
+    a[key] = this.state.interview[key].trim();
+    this.setState(a);
+
+},
+
+
+
 render: function() {
 
-    var interviews = this.state.interviews.map(function(interview){
-        return <div key={interview.id}>
-               <h1>{interview.name}</h1>
-               <h4>{interview.description}</h4>
-               <div>{interview.evaluationDescription}</div>
-               <br/>
-               Questions:
-               <br/><br/>
-               <Questions questions={interview._embedded.questions} />
-               </div>
-        ;
-    });
+    var questions = null;
+
+    if( isDef(this.state.interview._embedded) && isDef(this.state.interview._embedded.questions)  )
+    {
+        questions = this.state.interview._embedded.questions.map(function(question){
+            return(
+                <Question key={question.id} question={question} />
+            );
+        });
+    }
+
     return (
-        <div className="interviews">
-            {interviews}
-        </div>
+    <div>
+        <Input value={this.state.name} onChange={this.onChange.bind(null, "name")} onBlur={this.onBlur.bind(null, "name")} hasFeedback placeholder='Write interview name' label='Interview name:' type='text' />
+        <Input value={this.state.description} onChange={this.onChange.bind(null, 'description')} onBlur={this.onBlur.bind(null, "description")} label='Interview description:' placeholder='Write interview description' type='textarea'/>
+        <Input value={this.state.evaluationDescription} onChange={this.onChange.bind(null, 'evaluationDescription')} onBlur={this.onBlur.bind(null, "evaluationDescription")} label='Interview instructions:' placeholder='Write interview instructions for candidate' type='textarea'/>
+
+        {questions}
+
+        <Button onClick={} bsStyle='primary'>Add question</Button>
+
+    </div>
     );
 }
 });
 
-
-
-
-
-var Questions = React.createClass({
+var Question = React.createClass({
 
 getInitialState: function() {
-	return {questions: this.props.questions};
+	return {question: this.props.question, text: this.props.question.text, privateText: this.props.question.privateText, questionType: this.props.question.questionType};
 },
 
 render: function() {
 
-     var questions = this.state.questions.map(function(question){
-            return(
-                <fieldset key={question.id}>
-                    {question.text}:
-                    <br/>
-                    <Answers answers={question.answers} questionType={question.questionType} />
-                </fieldset>
-            );
-     });
 
-    return <div>{questions}</div>;
+    return (
+         <Input value={this.state.text} label='Question:' placeholder='Write question text' type='textarea'/>
+    );
 }
 
-});
-
-
-var Answers = React.createClass({
-
-getInitialState: function() {
-	return {answers: this.props.answers};
-},
-
-render: function() {
-
-var that = this;
-
-
-
-
-    if( this.props.questionType == 'TEXT_AREA'){
-        return (
-            <textarea key={this.props.answers[0].id} defaultValue={this.props.answers[0].text} rows="4" cols="50"/>
-        );
-    }
-
-    var answers = this.props.answers.map(function (answer) {
-        return ( <input key={answer.id} type={that.props.questionType} name="answers" >{answer.text}</input>);
-    });
-    return <div className={this.props.questionType}>{answers}</div>
-
-}
 
 });
