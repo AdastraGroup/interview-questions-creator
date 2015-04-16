@@ -33,7 +33,7 @@ public class ApplicationConfig extends RepositoryRestMvcConfiguration {
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Answer.class, Interview.class, Question.class);
         config.setReturnBodyOnCreate(true);
-        config.setReturnBodyOnUpdate(true);
+        //config.setReturnBodyOnUpdate(true);
         config.setBaseUri(URI.create("/api"));
     }
 

@@ -20,6 +20,8 @@ public class Question {
 
         String getText();
 
+        String getPrivateText();
+
         QuestionType getQuestionType();
 
         Set<Answer> getAnswers();
@@ -37,8 +39,10 @@ public class Question {
     @NotNull
     private String text;
 
+    private String privateText;
+
     @Enumerated(EnumType.STRING)
-    private QuestionType questionType;
+    private QuestionType questionType = QuestionType.CHECKBOX;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, orphanRemoval=true)
     private Set<Answer> answers = new HashSet<>();
@@ -87,6 +91,14 @@ public class Question {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getPrivateText() {
+        return privateText;
+    }
+
+    public void setPrivateText(String privateText) {
+        this.privateText = privateText;
     }
 
     public QuestionType getQuestionType() {
