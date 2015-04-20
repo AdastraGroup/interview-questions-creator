@@ -61,50 +61,17 @@ onUpdateFailure: function(key, url, status, err) {
     this.setState(a);
 
 },
-
-
-
 render: function() {
-
-    var questions = null;
-
-    if( isDef(this.state.interview._embedded) && isDef(this.state.interview._embedded.questions)  )
-    {
-        questions = this.state.interview._embedded.questions.map(function(question){
-            return(
-                <Question key={question.id} question={question} />
-            );
-        });
-    }
 
     return (
     <div>
         <Input value={this.state.name} onChange={this.onChange.bind(null, "name")} onBlur={this.onBlur.bind(null, "name")} hasFeedback placeholder='Write interview name' label='Interview name:' type='text' />
-        <Input value={this.state.description} onChange={this.onChange.bind(null, 'description')} onBlur={this.onBlur.bind(null, "description")} label='Interview description:' placeholder='Write interview description' type='textarea'/>
-        <Input value={this.state.evaluationDescription} onChange={this.onChange.bind(null, 'evaluationDescription')} onBlur={this.onBlur.bind(null, "evaluationDescription")} label='Interview instructions:' placeholder='Write interview instructions for candidate' type='textarea'/>
+        <Input value={this.state.description} onChange={this.onChange.bind(null, 'description')} onBlur={this.onBlur.bind(null, "description")} rows="5" label='Interview description:' placeholder='Write interview description' type='textarea'/>
+        <Input value={this.state.evaluationDescription} onChange={this.onChange.bind(null, 'evaluationDescription')} onBlur={this.onBlur.bind(null, "evaluationDescription")} rows="5" label='Interview instructions:' placeholder='Write interview instructions for candidate' type='textarea'/>
 
-        {questions}
-
-        <Button onClick={} bsStyle='primary'>Add question</Button>
+        <Button bsStyle='primary'>Add question</Button>
 
     </div>
     );
 }
-});
-
-var Question = React.createClass({
-
-getInitialState: function() {
-	return {question: this.props.question, text: this.props.question.text, privateText: this.props.question.privateText, questionType: this.props.question.questionType};
-},
-
-render: function() {
-
-
-    return (
-         <Input value={this.state.text} label='Question:' placeholder='Write question text' type='textarea'/>
-    );
-}
-
-
 });
