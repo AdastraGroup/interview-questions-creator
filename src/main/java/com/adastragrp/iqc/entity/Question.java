@@ -54,6 +54,7 @@ public class Question {
     private QuestionType questionType = QuestionType.CHECKBOX;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OrderBy("id ASC")
     private Set<Answer> answers = new HashSet<>();
     //</editor-fold>
 

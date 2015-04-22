@@ -110,7 +110,14 @@ update: function(key, value) {
 
 onSelect: function(eventKey){
 
-    if(eventKey == this.state.questionType) return;
+    if ( eventKey == this.state.questionType ) return;
+
+    if ( eventKey == "TEXT_AREA" && this.state.question.answers.length > 1)
+    {
+       if ( confirm("For 'text answer' only first answer will be kept. The rest will be deleted. ARE YOU SURE YOU WANT TO CONTINUE?") == true ){
+            // makedelete except  this.state.question.answers[0].id // api/answers/search/deleteAllExceptOne?answerId=1&questionId=1
+       } else { return; }
+    }
 
     this.update("questionType", eventKey);
 },
@@ -137,6 +144,28 @@ onBlur: function(key) {
 
 render: function() {
 
+    var questionType = this.state.questionType;
+    var answers = null;
+
+
+
+    if( isDef( this.state.question) ){
+        answers = this.state.question.answers.map(function(answer){
+
+                if(questionType == 'TEXT_AREA'){
+                    return (
+                        <Input value={answer.text} placeholder="answer text" type='textarea'/>
+                    );
+                }
+
+                return (
+                    <Input name="answer" key={answer.id} type={questionType.toLowerCase()} label={answer.text} />
+                );
+            });
+    }
+
+
+
     return (
         <div>
              <h2>Question {this.state.question.position}</h2>
@@ -147,8 +176,11 @@ render: function() {
                    <MenuItem eventKey="RADIO">RADIO</MenuItem>
                    <MenuItem eventKey="TEXT_AREA">TEXT</MenuItem>
              </DropdownButton>
+             {answers}
         </div>
     );
 }
 
 });
+
+
