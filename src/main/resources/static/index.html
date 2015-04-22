@@ -34,17 +34,27 @@
 
 <script type="text/jsx">
 
+    function isDef(variable) {
+        return (typeof variable !== "undefined");
+    };
+    function kv(key, value) {
+        var a = {};
+        a[key] = value;
+        return a;
+    };
 
 
     var TabbedArea = ReactBootstrap.TabbedArea;
     var TabPane = ReactBootstrap.TabPane;
     var Button = ReactBootstrap.Button;
     var Input = ReactBootstrap.Input;
+    var DropdownButton = ReactBootstrap.DropdownButton;
+    var MenuItem = ReactBootstrap.MenuItem;
 
    const navInstance = (
    <div >
 
-    <TabbedArea bsStyle='pills' defaultActiveKey={1} animation={false}>
+    <TabbedArea justified bsStyle='pills' defaultActiveKey={1} animation={false}>
                 <TabPane eventKey={1} tab='Interviews'><Interview id="1"/></TabPane>
                 <TabPane eventKey={2} tab='Interview templates'>TabPane 2 content</TabPane>
                 <TabPane eventKey={3} tab='Create New Template'>TabPane 3 content</TabPane>
