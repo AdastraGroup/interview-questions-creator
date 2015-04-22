@@ -44,18 +44,21 @@ public class TestDataPopulator {
         q1.setText("What's new in Java 8");
         q1.setQuestionType(Question.QuestionType.CHECKBOX);
         q1.setInterview(interview1);
+        q1.setPosition(1);
         questionRepository.save(q1);
 
         Question q2 = new Question();
         q2.setText("What's new in Java 7");
         q2.setQuestionType(Question.QuestionType.TEXT_AREA);
         q2.setInterview(interview2);
+        q2.setPosition(2);
         questionRepository.save(q2);
 
         Question q3 = new Question();
         q3.setText("What's new in Java 6");
         q3.setQuestionType(Question.QuestionType.RADIO);
         q3.setInterview(interview2);
+        q3.setPosition(1);
         questionRepository.save(q3);
 
 

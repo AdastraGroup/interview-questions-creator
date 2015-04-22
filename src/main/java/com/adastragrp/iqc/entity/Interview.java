@@ -57,6 +57,7 @@ public class Interview {
     private String evaluationDescription;
 
     @OneToMany(mappedBy = "interview", fetch = FetchType.EAGER)
+    @OrderBy("position ASC")
     private Set<Question> questions = new HashSet<>();
 
     @NotNull

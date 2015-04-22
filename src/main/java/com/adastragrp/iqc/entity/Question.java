@@ -3,7 +3,9 @@ package com.adastragrp.iqc.entity;
 import org.springframework.data.rest.core.config.Projection;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +24,8 @@ public class Question {
 
         String getPrivateText();
 
+        Integer getPosition();
+
         QuestionType getQuestionType();
 
         Set<Answer> getAnswers();
@@ -39,12 +43,17 @@ public class Question {
     @NotNull
     private String text;
 
+    @Size(max = 1000)
     private String privateText;
+
+    @Min(1)
+    @NotNull
+    private Integer position;
 
     @Enumerated(EnumType.STRING)
     private QuestionType questionType = QuestionType.CHECKBOX;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<Answer> answers = new HashSet<>();
     //</editor-fold>
 
@@ -117,6 +126,13 @@ public class Question {
         this.answers = answers;
     }
 
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
 
     //</editor-fold>
 
