@@ -14,14 +14,12 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @NotBlank
     @Size(max = 200)
     private String text;
 
     private boolean textMarkup = false;
 
-    @NotNull
-    private Boolean right;
+    private Boolean right = false;
 
     @ManyToOne
     Question question;
