@@ -56,13 +56,41 @@ addAnswer: function() {
 		error:      function(xhr, status, err)  {     console.error(this.props.url, status, err.toString());    }.bind(this)
 	});
 },
+update: function(answer, key, value) {
+
+    var data = kv(key, value);
+
+	$.ajax({ url: "/api/answers/" + answer.id, data: JSON.stringify(data), dataType: 'json', type: 'PATCH', headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+		     success: function(result)           { this.onUpdateSuccessAnswer(answer, key, value) }.bind(this),
+		     error:   function(xhr, status, err) { console.error(this.props.url, status, err.toString());   }.bind(this)
+	});
+},
+rightOnChange: function(answer, key, event) {
+
+    if(key == "right" || key == "chosen"){
+        this.update(answer, key,  event.target.checked);
+    } else if (key == "text"){
+
+        answer[key] = event.target.value;
+        this.forceUpdate();
+
+    } else {
+        console.log("No handle for type: " + key);
+    }
+
+},
+onUpdateSuccessAnswer: function(answer, key, value) {
+    answer[key] = value;
+    this.forceUpdate();
+
+},
+
 
 
 render: function() {
 
     var questionType = this.state.questionType;
     var answers = null;
-
 
     if( isDef( this.state.question) ){
         answers = this.state.question.answers.map(function(answer){
@@ -74,10 +102,13 @@ render: function() {
                 }
 
                 return (
-                    <Input key={answer.id} name="answer" type={questionType.toLowerCase()} label={answer.text} />
-
+                <div key={answer.id}>
+                    <Input value={answer.text}     onChange={this.rightOnChange.bind(null, answer , "text")} onBlur={this.update.bind(null, answer , "text", answer.text)}  type='textarea' />
+                    <Input checked={answer.right}  onChange={this.rightOnChange.bind(null, answer , "right")} type={questionType.toLowerCase()} name="answer" />
+                    <Input checked={answer.chosen} onChange={this.rightOnChange.bind(null, answer , "chosen")} type={questionType.toLowerCase()} name="answer" />
+                </div>
                 );
-            });
+            }, this);
     }
 
 
@@ -94,7 +125,6 @@ render: function() {
              {answers}
 
              <Button disabled={questionType == "TEXT_AREA"} onClick={this.addAnswer} bsStyle='success'>Add answer</Button>
-
         </div>
     );
 }

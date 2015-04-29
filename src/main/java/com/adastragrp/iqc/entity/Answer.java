@@ -1,9 +1,6 @@
 package com.adastragrp.iqc.entity;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -19,14 +16,16 @@ public class Answer {
 
     private boolean textMarkup = false;
 
-    private Boolean right = false;
+    private boolean right = false;
+
+    private boolean chosen = false;
+
 
     @ManyToOne
     Question question;
     //</editor-fold>
 
     //<editor-fold desc="Getters&Setters">
-
     public long getId() {
         return id;
     }
@@ -51,12 +50,20 @@ public class Answer {
         this.textMarkup = textMarkup;
     }
 
-    public Boolean getRight() {
+    public boolean isRight() {
         return right;
     }
 
-    public void setRight(Boolean right) {
+    public void setRight(boolean right) {
         this.right = right;
+    }
+
+    public boolean isChosen() {
+        return chosen;
+    }
+
+    public void setChosen(boolean chosen) {
+        this.chosen = chosen;
     }
 
     public Question getQuestion() {
