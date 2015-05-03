@@ -46,10 +46,7 @@ onBlur: function(key) {
 },
 onUpdateFailure: function(key, url, status, err) {
     console.error(url, status, err.toString());
-
-    var a = {};
-    a[key] = this.state.interview[key].trim();
-    this.setState(a);
+    this.setState(kv(key, this.state.interview[key].trim()));
 
 },
 addQuestion: function() {
