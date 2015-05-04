@@ -44,7 +44,6 @@ render: function() {
                 <Input checked={this.state.right}  onChange={patchUpdate.bind(this, url, id,  "right",  !this.state.right, this.state.answer.right)}  type={this.props.questionType.toLowerCase()} name="answer" />
                 <Input checked={this.state.chosen} onChange={patchUpdate.bind(this, url, id, "chosen", !this.state.chosen, this.state.answer.chosen)} type={this.props.questionType.toLowerCase()} name="answer" />
 
-
             </div>
         );
     }

@@ -8,6 +8,25 @@ getInitialState: function() {
 },
 
 onSelect: function(eventKey){
+
+    if(eventKey == "TEXT_AREA"){
+
+        if(        this.state.answers.length() == 1){
+                                                        //placeholder will be displayed
+
+
+        } else if( this.state.answers.length() == 0){
+            //var answer = call method which return one answer and set question type to text_area
+
+        } else if( confirm("All answers for this question will be replace with one and only one text answer. Are you sure?")) {
+            //var answer = call method which delete all answers except first one and return it and set question type to text_area and set text to ""
+        }
+        return;
+    }
+
+
+    this.setState({question: this.state.question});
+
     patchUpdate.call(this, "questions", this.props.question.id, "questionType", eventKey, this.state.questionType);
 },
 onTextChosen: function(key, value) {
@@ -18,11 +37,11 @@ onTextChosen: function(key, value) {
 },
 
 onUpdateSuccess(id, entityUrl, key, newVal){
-    this.setState(kv(key, newVal));                              // next 2 lines should be one call of set state
+    this.setState(kv(key, newVal));
     this.state.question[key] = newVal;
 },
 onUpdateFailure(id, entityUrl, key, newVal, oldVal){
-    this.setState(kv(key, oldVal));                             // next 2 lines should be one call of set state
+    this.setState(kv(key, oldVal));
 },
 
 onChange: function(key, event) {
@@ -31,7 +50,7 @@ onChange: function(key, event) {
 addAnswer: function() {
     var data = {};
 	data.question = "api/question/"+ this.props.question.id;
-	data.text = "answer";  //TODO
+	data.text = "";
 
 	$.ajax({ url: "/api/answers", dataType: 'json', type: 'POST', data : JSON.stringify(data) , headers : {'Accept' : 'application/json', 'Content-Type' : 'application/json'},
 		success:    function(answer)            {       this.state.question.answers.push(answer); this.setState({question: this.state.question});                     }.bind(this),
