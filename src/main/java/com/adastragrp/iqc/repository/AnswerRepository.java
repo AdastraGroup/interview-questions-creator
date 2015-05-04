@@ -14,7 +14,7 @@ public interface AnswerRepository extends PagingAndSortingRepository<Answer, Lon
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Answer a WHERE a.id <> :answerId AND a.question.id = :questionId)")
-    public void deleteAllExceptOne(@Param("answerId") Long answerId, @Param("questionId") Long questionId);
+    @Query("DELETE FROM Answer a WHERE a.question.id = :questionId)")
+    public void deleteAllByQuestionId(@Param("questionId") Long questionId);
 
 }
