@@ -22,7 +22,7 @@ public class QuestionController {
 
     @RequestMapping(value = "/textAnswer", method = RequestMethod.POST)
     @Transactional
-    Answer makeTextAnswerForQuestion(@PathVariable("id") Long questionId) {
+    void makeTextAnswerForQuestion(@PathVariable("id") Long questionId) {
         Question question = questionRepository.findOne(questionId);
 
         if(question == null){
@@ -35,7 +35,7 @@ public class QuestionController {
         a.setText("");                                                  // placeholder on frontend will be displayed
         answerRepository.save(a);
 
-        return a;
+        //return a;
     }
 
 
