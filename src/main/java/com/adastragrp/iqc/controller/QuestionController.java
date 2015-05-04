@@ -1,13 +1,17 @@
 package com.adastragrp.iqc.controller;
 
-
 import com.adastragrp.iqc.entity.Answer;
 import com.adastragrp.iqc.entity.Question;
 import com.adastragrp.iqc.repository.AnswerRepository;
 import com.adastragrp.iqc.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import static com.adastragrp.iqc.entity.Question.QuestionType.TEXT_AREA;
 
 @RestController
 @RequestMapping("/api/questions/{id}")
@@ -25,7 +29,7 @@ public class QuestionController {
     Answer makeTextAnswerForQuestion(@PathVariable("id") Long questionId) {
         Question question = questionRepository.findOne(questionId);
 
-        if(question == null){
+        if (question == null) {
             //map exception to http error
         }
 
@@ -34,6 +38,9 @@ public class QuestionController {
         a.setQuestion(question);
         a.setText("");                                                  // placeholder on frontend will be displayed
         answerRepository.save(a);
+
+        question.setQuestionType(TEXT_AREA);
+        questionRepository.save(question);
 
         return a;
     }

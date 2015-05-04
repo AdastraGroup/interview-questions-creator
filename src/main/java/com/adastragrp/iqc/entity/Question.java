@@ -1,5 +1,6 @@
 package com.adastragrp.iqc.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.rest.core.config.Projection;
 
 import javax.persistence.*;
@@ -37,6 +38,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @JsonIgnore
     @ManyToOne
     private Interview interview;
 
