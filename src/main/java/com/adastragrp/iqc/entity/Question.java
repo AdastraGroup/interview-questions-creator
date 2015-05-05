@@ -38,7 +38,7 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @JsonIgnore
+
     @ManyToOne
     private Interview interview;
 

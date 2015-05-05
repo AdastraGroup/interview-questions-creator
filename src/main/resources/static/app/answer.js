@@ -30,8 +30,7 @@ render: function() {
 
         if(this.props.questionType == 'TEXT_AREA'){
             return (
-                <Input value={this.state.text} onChange={this.onChange.bind(null, "text")} onBlur={patchUpdate.bind(this,url,id, "text", this.state.text, this.state.answer.text)} placeholder="Place for candidate text anser.'\n'You can write hint or anything here for candidate.'\n'
-                Note that text answers cannot be evaulated automatically." type='textarea'/>
+                <Input value={this.state.text} onChange={this.onChange.bind(null, "text")} onBlur={patchUpdate.bind(this,url,id, "text", this.state.text, this.state.answer.text)} placeholder="Place for candidate text anser.'\n'You can write hint or anything here for candidate.'\n'Note that text answers cannot be evaulated automatically." type='textarea'/>
             );
         }
 
@@ -41,8 +40,8 @@ render: function() {
                 {this.state.textUpdateOk ? <Alert bsStyle='success' onDismiss={function(){this.setState({textUpdateOk: false})}.bind(this)} dismissAfter={2000}>Saved</Alert> : null}
                 {this.state.textUpdateKo ? <Alert bsStyle='danger' onDismiss={function(){this.setState({textUpdateKo: false})}.bind(this)} dismissAfter={2000}>Not Saved, try again please</Alert> : null}
 
-                <Input checked={this.state.right}  onChange={patchUpdate.bind(this, url, id,  "right",  !this.state.right, this.state.answer.right)}  type={this.props.questionType.toLowerCase()} name="answer" />
-                <Input checked={this.state.chosen} onChange={patchUpdate.bind(this, url, id, "chosen", !this.state.chosen, this.state.answer.chosen)} type={this.props.questionType.toLowerCase()} name="answer" />
+                <Input label="right"  checked={this.state.right}  onChange={patchUpdate.bind(this, url, id,  "right",  !this.state.right, this.state.answer.right)}  type={this.props.questionType.toLowerCase()} name="answer" />
+                <Input label="chosen" checked={this.state.chosen} onChange={patchUpdate.bind(this, url, id, "chosen", !this.state.chosen, this.state.answer.chosen)} type={this.props.questionType.toLowerCase()} name="answer" />
 
             </div>
         );

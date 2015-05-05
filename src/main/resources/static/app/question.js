@@ -9,33 +9,29 @@ getInitialState: function() {
 
 onSelect: function(eventKey){
 
+    var message = "All answers for this question will be replace with one and only one text answer. Are you sure?";
+
+    if(this.state.questionType == eventKey) return;
+
     if(eventKey == "TEXT_AREA"){
 
-        if(        this.state.answers.length() == 1){
-                                                        //placeholder will be displayed
-
-
-        } else if( this.state.answers.length() == 0){
-            //var answer = call method which return one answer and set question type to text_area
-
-        } else if( confirm("All answers for this question will be replace with one and only one text answer. Are you sure?")) {
-            //var answer = call method which delete all answers except first one and return it and set question type to text_area and set text to ""
+        if( this.state.question.answers.length > 1 && ! confirm(message)) {
+            return;
         }
-        return;
+        $.ajax({ url: "/api/questions/" + this.props.question.id +"/textAnswer", dataType: 'json', type: 'POST', headers : {'Accept' : 'application/json', 'Content-Type' : 'application/json'},
+        		success: function(answer)           { this.state.question.answers = [];
+        		                                      this.state.question.answers.push(answer);
+        		                                      this.state.questionType = "TEXT_AREA";
+        		                                      this.setState({question: this.state.question});        }.bind(this),
+
+        		error:   function(xhr, status, err) { console.error(this.props.url, status, err.toString()); }.bind(this)
+        });
+
+    } else {
+        patchUpdate.call(this, "questions", this.props.question.id, "questionType", eventKey, this.state.questionType);
     }
 
-
-    this.setState({question: this.state.question});
-
-    patchUpdate.call(this, "questions", this.props.question.id, "questionType", eventKey, this.state.questionType);
 },
-onTextChosen: function(key, value) {
-
-    var field = this.state.question.answers.splice(1, this.state.question.answers.length - 1);
-    this.setState({question: this.state.question});
-
-},
-
 onUpdateSuccess(id, entityUrl, key, newVal){
     this.setState(kv(key, newVal));
     this.state.question[key] = newVal;

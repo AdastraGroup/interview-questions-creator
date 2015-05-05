@@ -2,6 +2,7 @@ package com.adastragrp.iqc.controller;
 
 import com.adastragrp.iqc.entity.Answer;
 import com.adastragrp.iqc.entity.Question;
+import com.adastragrp.iqc.exception.QuestionNotFoundException;
 import com.adastragrp.iqc.repository.AnswerRepository;
 import com.adastragrp.iqc.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class QuestionController {
         Question question = questionRepository.findOne(questionId);
 
         if (question == null) {
-            //map exception to http error
+            throw new QuestionNotFoundException(questionId);
         }
 
         answerRepository.deleteAllByQuestionId(questionId);
@@ -44,15 +45,4 @@ public class QuestionController {
 
         return a;
     }
-
-
-    //<editor-fold desc="Getters&Setters">
-    public AnswerRepository getAnswerRepository() {
-        return answerRepository;
-    }
-
-    public void setAnswerRepository(AnswerRepository answerRepository) {
-        this.answerRepository = answerRepository;
-    }
-    //</editor-fold>
 }

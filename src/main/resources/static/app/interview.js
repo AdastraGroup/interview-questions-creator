@@ -51,7 +51,7 @@ onUpdateFailure: function(key, url, status, err) {
 },
 addQuestion: function() {
     var data = {};
-	data.interview = "api/interview/"+ this.props.id;
+	data.interview = "api/interviews/"+ this.props.id;
 	data.text = "";
 	data.position = this.state.interview._embedded.questions.length + 1;
 
