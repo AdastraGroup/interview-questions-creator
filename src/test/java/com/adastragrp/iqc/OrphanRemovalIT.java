@@ -15,6 +15,7 @@ import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -25,6 +26,7 @@ import static com.jayway.restassured.RestAssured.when;
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 public class OrphanRemovalIT {
+
     @Autowired
     private QuestionRepository questionRepository;
 
@@ -86,5 +88,11 @@ public class OrphanRemovalIT {
                 .then()
                 .statusCode(HttpStatus.SC_NOT_FOUND);
 
+    }
+
+    @Test
+    @Transactional
+    public void orphanRemovalByRepository() {
+        questionRepository.delete(q1);
     }
 }
