@@ -33,40 +33,45 @@ public class Answer {
         return id;
     }
 
-    public void setId(long id) {
+    public Answer setId(long id) {
         this.id = id;
+        return this;
     }
 
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public Answer setText(String text) {
         this.text = text;
+        return this;
     }
 
     public boolean isTextMarkup() {
         return textMarkup;
     }
 
-    public void setTextMarkup(boolean textMarkup) {
+    public Answer setTextMarkup(boolean textMarkup) {
         this.textMarkup = textMarkup;
+        return this;
     }
 
     public Boolean getRight() {
         return right;
     }
 
-    public void setRight(Boolean right) {
+    public Answer setRight(Boolean right) {
         this.right = right;
+        return this;
     }
 
     public Question getQuestion() {
         return question;
     }
 
-    public void setQuestion(Question question) {
+    public Answer setQuestion(Question question) {
         this.question = question;
+        return this;
     }
 
 
