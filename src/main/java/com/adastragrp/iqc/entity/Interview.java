@@ -15,6 +15,7 @@ public class Interview {
 
     public static enum State {DRAFT, FINISHED, BEING_APPROVED, APPROVED, PUBLISHED, ASSIGNED, COMPLETED}
 
+
     //<editor-fold desc="Projections">
     @Projection(name = "InlineQuestions", types = {Interview.class})
     public static interface InlineQuestions {
@@ -38,6 +39,7 @@ public class Interview {
         LocalDateTime getCreated();
     }
     //</editor-fold>
+
 
     //<editor-fold desc="Attributes">
     @Id
@@ -72,10 +74,12 @@ public class Interview {
     private LocalDateTime created;
     //</editor-fold>
 
+
     @PrePersist
     private void prePersist() {
         this.created = LocalDateTime.now();
     }
+
 
     //<editor-fold desc="Equals&HashCode">
     @Override
@@ -96,8 +100,8 @@ public class Interview {
     }
     //</editor-fold>
 
-    //<editor-fold desc="Getters&Setters">
 
+    //<editor-fold desc="Getters&Setters">
     public long getId() {
         return id;
     }
@@ -173,12 +177,9 @@ public class Interview {
     public LocalDateTime getCreated() {
         return created;
     }
-
-    /*
-    public void setCreated(LocalDateTime created) {             // should not be able to setup - it is set once in prepersist block
+                                                                /*
+    public void setCreated(LocalDateTime created) {             // should not be able to setup - it is set once in prepersist method
         this.created = created;
-    }
-    */
-
+    }                                                           */
     //</editor-fold>
 }

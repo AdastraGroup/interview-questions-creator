@@ -1,12 +1,14 @@
 package com.adastragrp.iqc.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
 public class Answer {
+
 
     //<editor-fold desc="Attributes">
     @Id
@@ -24,8 +26,9 @@ public class Answer {
 
     @JsonIgnore
     @ManyToOne
-    Question question;
+    Question question = null;
     //</editor-fold>
+
 
     //<editor-fold desc="Getters&Setters">
     public long getId() {
@@ -68,21 +71,23 @@ public class Answer {
         return chosen;
     }
 
-    public void setChosen(boolean chosen) {
+    public Answer setChosen(boolean chosen) {
         this.chosen = chosen;
+        return this;
     }
 
+    @JsonIgnore
     public Question getQuestion() {
         return question;
     }
 
+    @JsonProperty
     public Answer setQuestion(Question question) {
         this.question = question;
         return this;
     }
-
-
     //</editor-fold>
+
 
     //<editor-fold desc="Equals&HashCode">
     @Override

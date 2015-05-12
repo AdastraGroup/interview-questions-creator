@@ -1,6 +1,7 @@
 package com.adastragrp.iqc.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.rest.core.config.Projection;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.Set;
 public class Question {
 
     public static enum QuestionType {CHECKBOX, RADIO, TEXT_AREA}
+
 
     //<editor-fold desc="Projections">
     @Projection(name = "InlineAnswers", types = {Question.class})
@@ -33,11 +35,13 @@ public class Question {
     }
     //</editor-fold>
 
+
     //<editor-fold desc="Attributes">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @JsonIgnore
     @ManyToOne
     private Interview interview;
 
@@ -59,6 +63,7 @@ public class Question {
     private Set<Answer> answers = new HashSet<>();
     //</editor-fold>
 
+
     //<editor-fold desc="Equals&HashCode">
     @Override
     public boolean equals(Object o) {
@@ -78,8 +83,8 @@ public class Question {
     }
     //</editor-fold>
 
-    //<editor-fold desc="Getters&Setters">
 
+    //<editor-fold desc="Getters&Setters">
     public long getId() {
         return id;
     }
@@ -89,10 +94,12 @@ public class Question {
         return this;
     }
 
+    @JsonIgnore
     public Interview getInterview() {
         return interview;
     }
 
+    @JsonProperty
     public Question setInterview(Interview interview) {
         this.interview = interview;
         return this;
@@ -111,8 +118,18 @@ public class Question {
         return privateText;
     }
 
-    public void setPrivateText(String privateText) {
+    public Question setPrivateText(String privateText) {
         this.privateText = privateText;
+        return this;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public Question setPosition(Integer position) {
+        this.position = position;
+        return this;
     }
 
     public QuestionType getQuestionType() {
@@ -132,15 +149,5 @@ public class Question {
         this.answers = answers;
         return this;
     }
-
-    public Integer getPosition() {
-        return position;
-    }
-
-    public void setPosition(Integer position) {
-        this.position = position;
-    }
-
     //</editor-fold>
-
 }

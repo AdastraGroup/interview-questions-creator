@@ -100,7 +100,7 @@ public class OrphanRemovalTest {
 
         mockMvc
                 .perform(post("/api/questions").contentType(contentType)
-                        .content(toJson(new Question().setText("text").setPrivateText("private text"))))
+                        .content(toJson(new Question().setText("text").setPrivateText("private text").setPosition(1))))
 
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", not(isEmptyOrNullString())))
