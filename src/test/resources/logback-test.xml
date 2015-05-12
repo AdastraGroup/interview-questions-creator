@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <property name="LOG_FILE" value="./logs/spring.log" />  <!--sets the LOG file in base.xml above, the same output goes to console-->
+
+
+    <logger name="org.springframework.web" level="WARN" />
+    <logger name="org.springframework.boot" level="WARN" />
+</configuration>

@@ -38,7 +38,6 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-
     @ManyToOne
     private Interview interview;
 
@@ -85,24 +84,27 @@ public class Question {
         return id;
     }
 
-    public void setId(long id) {
+    public Question setId(long id) {
         this.id = id;
+        return this;
     }
 
     public Interview getInterview() {
         return interview;
     }
 
-    public void setInterview(Interview interview) {
+    public Question setInterview(Interview interview) {
         this.interview = interview;
+        return this;
     }
 
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public Question setText(String text) {
         this.text = text;
+        return this;
     }
 
     public String getPrivateText() {
@@ -117,16 +119,18 @@ public class Question {
         return questionType;
     }
 
-    public void setQuestionType(QuestionType questionType) {
+    public Question setQuestionType(QuestionType questionType) {
         this.questionType = questionType;
+        return this;
     }
 
     public Set<Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(Set<Answer> answers) {
+    public Question setAnswers(Set<Answer> answers) {
         this.answers = answers;
+        return this;
     }
 
     public Integer getPosition() {

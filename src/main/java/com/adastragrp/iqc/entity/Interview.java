@@ -102,64 +102,72 @@ public class Interview {
         return id;
     }
 
-    public void setId(long id) {
+    public Interview setId(long id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public Interview setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Interview setDescription(String description) {
         this.description = description;
+        return this;
     }
 
     public String getEvaluationDescription() {
         return evaluationDescription;
     }
 
-    public void setEvaluationDescription(String evaluationDescription) {
+    public Interview setEvaluationDescription(String evaluationDescription) {
         this.evaluationDescription = evaluationDescription;
+        return this;
     }
 
     public Set<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Set<Question> questions) {
+    public Interview setQuestions(Set<Question> questions) {
         this.questions = questions;
+        return this;
     }
 
     public boolean isDescriptionMarkup() {
         return descriptionMarkup;
     }
 
-    public void setDescriptionMarkup(boolean descriptionMarkup) {
+    public Interview setDescriptionMarkup(boolean descriptionMarkup) {
         this.descriptionMarkup = descriptionMarkup;
+        return this;
     }
 
     public boolean isEvaluationDescriptionMarkup() {
         return evaluationDescriptionMarkup;
     }
 
-    public void setEvaluationDescriptionMarkup(boolean evaluationDescriptionMarkup) {
+    public Interview setEvaluationDescriptionMarkup(boolean evaluationDescriptionMarkup) {
         this.evaluationDescriptionMarkup = evaluationDescriptionMarkup;
+        return this;
     }
 
     public State getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public Interview setState(State state) {
         this.state = state;
+        return this;
     }
 
     public LocalDateTime getCreated() {
