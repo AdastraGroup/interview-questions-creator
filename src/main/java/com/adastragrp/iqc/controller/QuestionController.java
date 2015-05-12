@@ -2,9 +2,11 @@ package com.adastragrp.iqc.controller;
 
 import com.adastragrp.iqc.entity.Answer;
 import com.adastragrp.iqc.entity.Question;
-import com.adastragrp.iqc.exception.QuestionNotFoundException;
+import com.adastragrp.iqc.exception.NotFoundException;
 import com.adastragrp.iqc.repository.AnswerRepository;
 import com.adastragrp.iqc.repository.QuestionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +32,7 @@ public class QuestionController {
     Answer makeTextAnswerForQuestion(@PathVariable("id") Long questionId) {
         Question question = questionRepository.findOne(questionId);
 
-        if (question == null) {
-            throw new QuestionNotFoundException(questionId);
-        }
+        throwNotFoundExceptionOnNull(question, Question.class, questionId);
 
         answerRepository.deleteAllByQuestionId(questionId);
         Answer a = new Answer();
@@ -45,4 +45,33 @@ public class QuestionController {
 
         return a;
     }
+
+
+    @RequestMapping(value = "/answers/{answerId}/right", method = RequestMethod.POST)
+    @Transactional
+    void setAnswerRight(@PathVariable("id") Long questionId, @PathVariable("answerId") Long answerId) {
+        Question question = questionRepository.findOne(questionId);
+        Answer answer = answerRepository.findOne(answerId);
+
+        throwNotFoundExceptionOnNull(answer, Answer.class, answerId);
+        throwNotFoundExceptionOnNull(question, Question.class, questionId);
+
+        question.getAnswers().stream().forEach(
+                a -> {a.setRight(a.getId() == answerId);}
+        );
+
+        answerRepository.save(question.getAnswers());
+    }
+
+
+
+    private void throwNotFoundExceptionOnNull(Object o, Class clazz, Long id) {
+
+        if(o == null){
+            log.error("Could not find "+ clazz.getCanonicalName() +" with id: '" + id + "'.");
+            throw new NotFoundException(id, clazz);
+        }
+    }
+
+    protected final static transient Logger log = LoggerFactory.getLogger(QuestionController.class);
 }
