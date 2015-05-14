@@ -69,8 +69,7 @@ public class OrphanRemovalTest {
         this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream().filter(
                 hmc -> hmc instanceof MappingJackson2HttpMessageConverter).findAny().get();
 
-        Assert.assertNotNull("the JSON message converter must not be null",
-                this.mappingJackson2HttpMessageConverter);
+        Assert.assertNotNull("the JSON message converter must not be null", this.mappingJackson2HttpMessageConverter);
     }
 
     @Before
@@ -144,7 +143,7 @@ public class OrphanRemovalTest {
 
 
         mockMvc.perform(delete("/api/questions/" + questions.get(0).getId()).contentType(contentType))
-                .andExpect(status().is(204));
+                .andExpect(status().isNoContent());
 
 
         mockMvc.perform(get("api/questions/" + questions.get(0).getId())
