@@ -2,6 +2,7 @@ var Question = React.createClass({
 
 getInitialState: function() {
 	return {    question:       this.props.question,
+	            answers:        this.props.question.answers,
                 text:           this.props.question.text,
                 privateText:    this.props.question.privateText,
                 questionType:   this.props.question.questionType};
@@ -19,18 +20,43 @@ onSelect: function(eventKey){
             return;
         }
         $.ajax({ url: "/api/questions/" + this.props.question.id +"/textAnswer", dataType: 'json', type: 'POST', headers : {'Accept' : 'application/json', 'Content-Type' : 'application/json'},
-        		success: function(answer)           { this.state.question.answers = [];
-        		                                      this.state.question.answers.push(answer);
-        		                                      this.state.questionType = "TEXT_AREA";
-        		                                      this.setState({question: this.state.question});        }.bind(this),
+            success: function(answer) {
+                                        var answers = [];
+                                        answers.push(answer);
+                                        this.setState({answers: answers, questionType: eventKey});
+                                        }.bind(this),
 
-        		error:   function(xhr, status, err) { console.error(this.props.url, status, err.toString()); }.bind(this)
+            error:   function(xhr, status, err) { console.error(this.props.url, status, err.toString()); }.bind(this)
         });
+
+    } else if(eventKey == "RADIO") {
+        
+        $.ajax({ url: "/api/questions/" + this.props.question.id +"/radioAnswer", dataType: 'json', type: 'POST', headers : {'Accept' : 'application/json', 'Content-Type' : 'application/json'},
+            success: function(answers) {
+                                         this.setState({answers: answers, questionType: "RADIO"});
+                                         answers.forEach(function(answer){ this.refs['answer'+answer.id ].setState({right : answer.right})  }, this);
+
+                                       }.bind(this),
+
+            error:   function(xhr, status, err) { console.error(this.props.url, status, err.toString()); }.bind(this)
+        });
+
 
     } else {
         patchUpdate.call(this, "questions", this.props.question.id, "questionType", eventKey, this.state.questionType);
     }
 
+},
+onRadioButtonChosen(answerId){
+    $.ajax({ url: "/api/questions/" + this.props.question.id +"/radioAnswer?answerId=" + answerId, dataType: 'json', type: 'POST', headers : {'Accept' : 'application/json', 'Content-Type' : 'application/json'},
+                success: function(answers) {
+                                             this.setState({answers: answers, questionType: "RADIO"});
+                                             answers.forEach(function(answer){ this.refs['answer'+answer.id ].setState({right : answer.right})  }, this);
+
+                                           }.bind(this),
+
+                error:   function(xhr, status, err) { console.error(this.props.url, status, err.toString()); }.bind(this)
+            });
 },
 onUpdateSuccess(id, entityUrl, key, newVal){
     this.setState(kv(key, newVal));
@@ -49,7 +75,7 @@ addAnswer: function() {
 	data.text = "";
 
 	$.ajax({ url: "/api/answers", dataType: 'json', type: 'POST', data : JSON.stringify(data) , headers : {'Accept' : 'application/json', 'Content-Type' : 'application/json'},
-		success:    function(answer)            {       this.state.question.answers.push(answer); this.setState({question: this.state.question});                     }.bind(this),
+		success:    function(answer)            {     this.state.answers.push(answer); this.setState({answers: this.state.answers});   }.bind(this),
 		error:      function(xhr, status, err)  {     console.error(this.props.url, status, err.toString());    }.bind(this)
 	});
 },
@@ -61,11 +87,11 @@ render: function() {
     var answers = null;
 
 
-    if( isDef( this.state.question.answers) )
+    if( isDef( this.state.answers) )
     {
-        answers = this.state.question.answers.map(function(answer){
+        answers = this.state.answers.map(function(answer){
 
-            return( <Answer key={answer.id} answer={answer} questionType={this.state.questionType} /> );
+            return( <Answer ref={'answer' + answer.id} key={answer.id} answer={answer} questionType={this.state.questionType} onRadioButtonChosen={this.onRadioButtonChosen}  /> );
 
         }, this);
     }

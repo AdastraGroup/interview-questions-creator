@@ -15,7 +15,6 @@ function patchUpdate(entityUrl, id, key, newVal, oldVal, doTrim) {
         //maybe onUpdateSucces cos user may be confused
         return;
     }
-
     if(doTrim && typeof newVal == "string"){
         newVal = newVal.trim();
     }

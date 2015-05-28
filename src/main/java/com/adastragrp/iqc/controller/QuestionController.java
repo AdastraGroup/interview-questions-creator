@@ -9,10 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 
 import static com.adastragrp.iqc.entity.Question.QuestionType.TEXT_AREA;
 
@@ -37,7 +36,7 @@ public class QuestionController {
         answerRepository.deleteAllByQuestionId(questionId);
         Answer a = new Answer();
         a.setQuestion(question);
-        a.setText("");                                                  // placeholder on frontend will be displayed
+        a.setText("");
         answerRepository.save(a);
 
         question.setQuestionType(TEXT_AREA);
@@ -46,29 +45,48 @@ public class QuestionController {
         return a;
     }
 
-
-    @RequestMapping(value = "/answers/{answerId}/right", method = RequestMethod.POST)
+    @RequestMapping(value = "/radioAnswer", method = RequestMethod.POST)
     @Transactional
-    void setAnswerRight(@PathVariable("id") Long questionId, @PathVariable("answerId") Long answerId) {
-        Question question = questionRepository.findOne(questionId);
-        Answer answer = answerRepository.findOne(answerId);
+    Iterable<Answer> makeRadioAnswersForQuestion(@PathVariable("id") Long questionId, @RequestParam(required = false) Long answerId) {
 
-        throwNotFoundExceptionOnNull(answer, Answer.class, answerId);
+        Question question = questionRepository.findOne(questionId);
         throwNotFoundExceptionOnNull(question, Question.class, questionId);
 
+        if (answerId != null) {
+            Answer answer = answerRepository.findOne(answerId);
+            throwNotFoundExceptionOnNull(answer, Answer.class, answerId);
+        }
+
+        questionRepository.save(question.setQuestionType(Question.QuestionType.RADIO));
+
+        if (question.getAnswers().size() == 0) {
+            return Arrays.asList(answerRepository.save(new Answer().setRight(true).setQuestion(question)));
+        }
+
+        if (question.getAnswers().size() == 1) {
+            return Arrays.asList(answerRepository.save(question.getAnswers().iterator().next().setRight(true)));
+        }
+
+
+        Long id = answerId != null ? answerId :
+                question.getAnswers().stream().filter(answer -> answer.isRight()).findFirst()
+                        .orElse(question.getAnswers().stream().findFirst().get())
+                        .getId();
+
         question.getAnswers().stream().forEach(
-                a -> {a.setRight(a.getId() == answerId);}
+                a -> {
+                    a.setRight(a.getId() == id);
+                }
         );
 
-        answerRepository.save(question.getAnswers());
+        return answerRepository.save(question.getAnswers());
     }
-
 
 
     private void throwNotFoundExceptionOnNull(Object o, Class clazz, Long id) {
 
-        if(o == null){
-            log.error("Could not find "+ clazz.getCanonicalName() +" with id: '" + id + "'.");
+        if (o == null) {
+            log.error("Could not find " + clazz.getCanonicalName() + " with id: '" + id + "'.");
             throw new NotFoundException(id, clazz);
         }
     }
