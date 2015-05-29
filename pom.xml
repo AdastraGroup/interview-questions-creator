@@ -5,7 +5,11 @@
 
     <groupId>com.adastragrp.training</groupId>
     <artifactId>interview-questions-creator</artifactId>
+    <packaging>pom</packaging>
     <version>0.1.0-SNAPSHOT</version>
+    <modules>
+        <module>gateway</module>
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
