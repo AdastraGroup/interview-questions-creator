@@ -165,7 +165,7 @@ public class OrphanRemovalTest {
     @Transactional
     public void OrphanRemovalViaRepository() throws Exception {
 
-        Question question = questionRepository.save(new Question().setText("text").setPrivateText("private text"));
+        Question question = questionRepository.save(new Question().setText("text").setPrivateText("private text").setPosition(1));
         Answer answer1 = answerRepository.save(new Answer().setText("answer 1").setQuestion(question).setRight(true));
         Answer answer2 = answerRepository.save(new Answer().setText("answer 2").setQuestion(question).setRight(true));
 
