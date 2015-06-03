@@ -14,9 +14,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import javax.annotation.PostConstruct;
 import java.net.URI;
@@ -25,6 +27,7 @@ import java.net.URI;
 @Import(RepositoryRestMvcConfiguration.class)
 @Configuration
 @ComponentScan
+@EnableRedisHttpSession
 public class ApplicationConfig extends RepositoryRestMvcConfiguration {
 
     @Autowired
@@ -52,22 +55,11 @@ public class ApplicationConfig extends RepositoryRestMvcConfiguration {
     @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
     protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-        @Autowired
-        public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-
-            auth.inMemoryAuthentication()
-                    .withUser("user").password("password").roles("USER");
-        }
-
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .httpBasic()
-                    .and()
-                    .authorizeRequests()
-                    .anyRequest().authenticated()
-                    .and()
-                    .csrf().disable();
+            http.httpBasic().disable();
+            http.authorizeRequests().anyRequest().authenticated();
         }
+
     }
 }

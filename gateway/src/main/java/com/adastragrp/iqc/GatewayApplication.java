@@ -11,6 +11,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.stereotype.Controller;
 
 
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
 @EnableAutoConfiguration
 @Controller
 @EnableZuulProxy
+@EnableRedisHttpSession
 public class GatewayApplication {
 
     public static void main(String[] args) {

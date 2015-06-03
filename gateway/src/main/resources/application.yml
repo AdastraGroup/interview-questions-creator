@@ -5,7 +5,8 @@ zuul:
     routes:
         /:
             url: http://localhost:8080
-
-
 server:
     port: 8082
+
+security:
+    sessions: ALWAYS
