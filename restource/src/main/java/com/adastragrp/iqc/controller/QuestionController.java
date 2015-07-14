@@ -8,9 +8,16 @@ import com.adastragrp.iqc.repository.QuestionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.EntityType;
 import java.util.Arrays;
 
 import static com.adastragrp.iqc.entity.Question.QuestionType.TEXT_AREA;
@@ -80,6 +87,16 @@ public class QuestionController {
         );
 
         return answerRepository.save(question.getAnswers());
+    }
+
+    @RequestMapping(value = "/testSearch", method = RequestMethod.GET)
+    @Transactional
+    Iterable<Answer> makeRadioAnswersForQuestion() {
+
+        Specification<Answer> specification = (root, query, cb) -> cb.like(root.get("text"), "lambd%");
+        Specification<Answer> specification1 = (root, query, cb) -> cb.equal(root.get("right"), true);
+
+        return answerRepository.findAll(Specifications.<Answer>where(specification).and(specification1) );
     }
 
 

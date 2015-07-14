@@ -14,8 +14,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
@@ -28,21 +26,19 @@ import java.net.URI;
 @Configuration
 @ComponentScan
 @EnableRedisHttpSession
-public class ApplicationConfig extends RepositoryRestMvcConfiguration {
+public class RestApiApplication extends RepositoryRestMvcConfiguration {
 
     @Autowired
     private TestDataPopulator testDataPopulator;
 
     public static void main(String[] args) {
-        SpringApplication.run(ApplicationConfig.class, args);
+        SpringApplication.run(RestApiApplication.class, args);
     }
 
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Answer.class, Interview.class, Question.class);
         config.setReturnBodyOnCreate(true);
-        //config.setReturnBodyOnUpdate(true);
-        config.setBaseUri(URI.create("/api"));
     }
 
 

@@ -49,10 +49,12 @@ render: function() {
                 <Input value=  {this.state.text}   onChange={this.onChange.bind(null, "text")} onBlur={patchUpdate.bind(this,url,id, "text", this.state.text, this.state.answer.text)}  type='textarea' />
                 {this.state.textUpdateOk ? <Alert bsStyle='success' onDismiss={function(){this.setState({textUpdateOk: false})}.bind(this)} dismissAfter={2000}>Saved</Alert> : null}
                 {this.state.textUpdateKo ? <Alert bsStyle='danger' onDismiss={function(){this.setState({textUpdateKo: false})}.bind(this)} dismissAfter={2000}>Not Saved, try again please</Alert> : null}
-
-                <Input label="right"  checked={this.state.right}  onChange={this.onRightChange}  type={this.props.questionType.toLowerCase()} name="right" />
-                <Input label="chosen" checked={this.state.chosen} onChange={patchUpdate.bind(this, url, id, "chosen", !this.state.chosen, this.state.chosen)} type='checkbox' name="chosen" />
-
+                <div className="col-sm-6">
+                    <Input label="right"  checked={this.state.right}  onChange={this.onRightChange}  type={this.props.questionType.toLowerCase()} name="right" />
+                </div>
+                <div className="col-sm-6">
+                    <Input label="chosen" checked={this.state.chosen} onChange={patchUpdate.bind(this, url, id, "chosen", !this.state.chosen, this.state.chosen)} type='checkbox' name="chosen" />
+                </div>
             </div>
         );
     }

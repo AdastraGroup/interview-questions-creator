@@ -8,9 +8,7 @@
     <link rel="stylesheet" href="/css/example.css" type="text/css"/>
 </head>
 <body>
-
-<div style="margin: 20px" id="container"> </div>
-
+    <div id="container" class="container"> </div>
 
 <script src="/lib/es5-shim.min.js"></script>
 <script src="/lib/es5-sham.min.js"></script>
@@ -49,9 +47,9 @@
 
 
    const navInstance = (
-   <div >
+   <div>
 
-    <TabbedArea justified bsStyle='pills' defaultActiveKey={1} animation={false}>
+    <TabbedArea className="row" justified bsStyle='pills' defaultActiveKey={1} animation={false}>
                 <TabPane eventKey={1} tab='Interviews'><Interview id="1"/></TabPane>
                 <TabPane eventKey={2} tab='Interview templates'>TabPane 2 content</TabPane>
                 <TabPane eventKey={3} tab='Create New Template'>TabPane 3 content</TabPane>

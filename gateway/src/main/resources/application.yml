@@ -1,12 +1,26 @@
+default:
+    path: "forward:/user_ui"
+                                            # path: "forward:/site_down.html"
+                                            # or
+                                            # path: "redirect:http://www.yahoo.com"
+                                            # or
+                                            # java -jar app.jar --default.path="redirect:http://www.yahoo.com"
 logging:
     level:
-        org.springframework.security: DEBUG
-zuul:
-    routes:
-        /:
-            url: http://localhost:8080
+        org.springframework.security: WARN
 server:
-    port: 8082
+    port: 8080
 
 security:
     sessions: ALWAYS
+
+zuul:
+  routes:
+
+    user_ui:
+        url: http://localhost:8081
+    admin_ui:
+        url: http://localhost:8082
+    rest_api:
+        url: http://localhost:8083
+
