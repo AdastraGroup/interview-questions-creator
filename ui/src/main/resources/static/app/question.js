@@ -98,19 +98,27 @@ render: function() {
 
 
     return (
-        <div>
-             <h2>Question {this.state.question.position}</h2>
-             <Input value={this.state.text}        onChange={this.onChange.bind(null, "text")}         onBlur={patchUpdate.bind(this,url,id, "text", this.state.text, this.state.question.text)}  label="Assigment:" placeholder='Write question text' type='textarea'/>
-             <Input value={this.state.privateText} onChange={this.onChange.bind(null, "privateText")}  onBlur={patchUpdate.bind(this,url,id, "privateText", this.state.privateText, this.state.question.privateText)} label="Internal notes:" placeholder="Notes (NOT visible to candidate)" type='textarea'/>
-             <DropdownButton onSelect={this.onSelect} title={this.state.questionType} bsStyle="info" >
-                   <MenuItem eventKey="CHECKBOX">CHECKBOX</MenuItem>
-                   <MenuItem eventKey="RADIO">RADIO</MenuItem>
-                   <MenuItem eventKey="TEXT_AREA">TEXT</MenuItem>
-             </DropdownButton>
-
-             {answers}
-
-             <Button disabled={questionType == "TEXT_AREA"} onClick={this.addAnswer} bsStyle='success'>Add answer</Button>
+        <div className="row question">
+            <div className="col-md-12">
+                <h2>Question {this.state.question.position}</h2>
+            </div>
+            <div className="row padding-sm">
+                <div className="col-md-6 border-bottom-sm">
+                     <Input value={this.state.text}        onChange={this.onChange.bind(null, "text")}         onBlur={patchUpdate.bind(this,url,id, "text", this.state.text, this.state.question.text)}  label="Assigment:" placeholder='Write question text' type='textarea'/>
+                     <Input value={this.state.privateText} onChange={this.onChange.bind(null, "privateText")}  onBlur={patchUpdate.bind(this,url,id, "privateText", this.state.privateText, this.state.question.privateText)} label="Internal notes:" placeholder="Notes (NOT visible to candidate)" type='textarea'/>
+                    <div className="text-center">
+                         <DropdownButton onSelect={this.onSelect} title={this.state.questionType} bsStyle="info" >
+                               <MenuItem eventKey="CHECKBOX">CHECKBOX</MenuItem>
+                               <MenuItem eventKey="RADIO">RADIO</MenuItem>
+                               <MenuItem eventKey="TEXT_AREA">TEXT</MenuItem>
+                         </DropdownButton>
+                    </div>
+                </div>
+                <div className="col-md-6 answers">
+                    {answers}
+                </div>
+             </div>
+            <Button disabled={questionType == "TEXT_AREA"} onClick={this.addAnswer} bsStyle='success'>Add answer</Button>
         </div>
     );
 }

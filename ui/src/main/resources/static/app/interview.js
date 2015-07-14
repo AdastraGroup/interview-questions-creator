@@ -76,15 +76,26 @@ render: function() {
         }
 
     return (
-    <div>
-        <Input value={this.state.name} onChange={this.onChange.bind(null, "name")} onBlur={this.onBlur.bind(null, "name")} hasFeedback placeholder='Write interview name' label='Interview name:' type='text' />
-        <Input value={this.state.description} onChange={this.onChange.bind(null, 'description')} onBlur={this.onBlur.bind(null, "description")} rows="5" label='Interview description:' placeholder='Write interview description' type='textarea'/>
-        <Input value={this.state.evaluationDescription} onChange={this.onChange.bind(null, 'evaluationDescription')} onBlur={this.onBlur.bind(null, "evaluationDescription")} rows="5" label='Interview instructions:' placeholder='Write interview instructions for candidate' type='textarea'/>
-
-        {questions}
-
-        <Button onClick={this.addQuestion} bsStyle='primary'>Add question</Button>
-
+    <div className="row">
+        <div className="state-info">
+            <div className="row ">
+                <div className="col-md-8 col-md-offset-2">
+                    <Input className="text-center" value={this.state.name} onChange={this.onChange.bind(null, "name")} onBlur={this.onBlur.bind(null, "name")} hasFeedback placeholder='Write interview name' label='Interview name:' type='text' />
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-md-6">
+                    <Input value={this.state.description} onChange={this.onChange.bind(null, 'description')} onBlur={this.onBlur.bind(null, "description")} rows="5" label='Interview description:' placeholder='Write interview description' type='textarea'/>
+                </div>
+                <div className="col-md-6">
+                    <Input value={this.state.evaluationDescription} onChange={this.onChange.bind(null, 'evaluationDescription')} onBlur={this.onBlur.bind(null, "evaluationDescription")} rows="5" label='Interview instructions:' placeholder='Write interview instructions for candidate' type='textarea'/>
+                </div>
+            </div>
+        </div>
+        <div className="row">
+            {questions}
+        </div>
+        <Button className="add-question" onClick={this.addQuestion} bsStyle='primary'>Add question</Button>
     </div>
     );
 }

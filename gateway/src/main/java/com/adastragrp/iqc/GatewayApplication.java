@@ -1,6 +1,7 @@
 package com.adastragrp.iqc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Configuration
@@ -23,8 +25,17 @@ import org.springframework.stereotype.Controller;
 @EnableRedisHttpSession
 public class GatewayApplication {
 
+    @Value("${default.path}")
+    private String defaultPath = "forward:/user_ui";
+
+
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);
+    }
+
+    @RequestMapping("/")
+    public String defaultPath() {
+        return defaultPath;
     }
 
     @Configuration
@@ -35,7 +46,9 @@ public class GatewayApplication {
         public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
 
             auth.inMemoryAuthentication()
-                    .withUser("user").password("password").roles("USER");
+                    .withUser("user").password("password").roles("USER")
+                        .and()
+                    .withUser("admin").password("password").roles("ADMIN");
         }
 
         @Override

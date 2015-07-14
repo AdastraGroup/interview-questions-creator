@@ -3,7 +3,7 @@ logging:
         org.springframework.security: DEBUG
 
 server:
-    port: 8083
+    port: 8081
     address: 127.0.0.1
 
 security:

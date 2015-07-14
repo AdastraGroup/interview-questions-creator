@@ -9,7 +9,6 @@ import javax.validation.constraints.Size;
 @Entity
 public class Answer {
 
-
     //<editor-fold desc="Attributes">
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +27,6 @@ public class Answer {
     @ManyToOne
     Question question = null;
     //</editor-fold>
-
 
     //<editor-fold desc="Getters&Setters">
     public long getId() {
@@ -87,7 +85,6 @@ public class Answer {
         return this;
     }
     //</editor-fold>
-
 
     //<editor-fold desc="Equals&HashCode">
     @Override
