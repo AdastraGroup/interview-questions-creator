@@ -15,7 +15,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.security.Principal;
+import java.util.Collections;
+import java.util.Map;
 
 @Configuration
 @ComponentScan
@@ -38,6 +42,13 @@ public class GatewayApplication {
         return defaultPath;
     }
 
+    @RequestMapping("/user")
+    @ResponseBody
+    public Map<String, Object> user(Principal user) {
+        return Collections.<String, Object> singletonMap("name", user.getName());
+    }
+
+
     @Configuration
     @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
     protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -57,6 +68,7 @@ public class GatewayApplication {
                     .httpBasic()
                     .and()
                     .authorizeRequests()
+                    .antMatchers("/user_ui/**", "/admin_ui/**", "/").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     .csrf().disable();

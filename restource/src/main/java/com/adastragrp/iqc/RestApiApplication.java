@@ -17,13 +17,20 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguratio
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
 import java.net.URI;
+import java.security.Principal;
+import java.util.Collections;
+import java.util.Map;
 
 @EnableAutoConfiguration
 @Import(RepositoryRestMvcConfiguration.class)
 @Configuration
+@RestController
 @ComponentScan
 @EnableRedisHttpSession
 public class RestApiApplication extends RepositoryRestMvcConfiguration {
@@ -39,6 +46,12 @@ public class RestApiApplication extends RepositoryRestMvcConfiguration {
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Answer.class, Interview.class, Question.class);
         config.setReturnBodyOnCreate(true);
+    }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public String test() {
+        return "{\"info\":\"you did it!!!\"}";
     }
 
 

@@ -20,11 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableRedisHttpSession
 public class UiApplication {
 
-    @RequestMapping("/user")
-    public Map<String, String> user(Principal user) {
-        return Collections.singletonMap("name", user.getName());
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(UiApplication.class, args);
     }
@@ -40,7 +35,7 @@ public class UiApplication {
                     .httpBasic()
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/index.html", "/").permitAll()
+                    .antMatchers("/lib/**","/css/**","/index.html", "/").permitAll()
                     .anyRequest().hasRole("USER");
             // @formatter:on
         }
