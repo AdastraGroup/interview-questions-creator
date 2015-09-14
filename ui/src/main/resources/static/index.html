@@ -23,13 +23,8 @@
 <script src="/user_ui/lib/react_bootstrap/react-bootstrap.js"></script>
 
 <script type="text/jsx">
-    var TabbedArea = ReactBootstrap.TabbedArea;
-    var TabPane = ReactBootstrap.TabPane;
     var Button = ReactBootstrap.Button;
     var Input = ReactBootstrap.Input;
-    var DropdownButton = ReactBootstrap.DropdownButton;
-    var MenuItem = ReactBootstrap.MenuItem;
-    var Alert = ReactBootstrap.Alert;
 </script>
 
 <script type="text/jsx">
@@ -37,14 +32,14 @@
     var LoginForm = React.createClass({
 
         getInitialState: function() {
-            return {logged: false, test: ""};
+            return {logged: false, message: ""};
         },
+
         componentDidMount: function() {
             this.callUserEndpoint();
         },
-        logIn: function(){
-            this.setState({logged: true});
-        },
+
+
         callUserEndpoint: function(auth){
 
             var authString = "Basic " + btoa(this.refs.login.getValue() + ":" + this.refs.password.getValue());
@@ -55,7 +50,7 @@
             $.ajax({
                 url: "/user",
                 headers: headers,
-		        success: function(result)           {  this.logIn();  }.bind(this),
+		        success: function(result)           {  this.setState({logged: result.name}); this.callRestEndpoint(); }.bind(this),
 		        error:   function(xhr, status, err) {  this.setState({logged: false}); }.bind(this)
 	        });
         },
@@ -65,10 +60,8 @@
             $.ajax({
                 url: "/rest_api/test",
                 headers: {'X-Requested-With' : 'XMLHttpRequest', 'Accept' : 'application/json'},
-		        success: function(result)           {
-		                                        this.setState({test: result.info});
-		                        }.bind(this),
-		        error:   function(xhr, status, err) {  console.log(err);                }.bind(this)
+		        success: function(result)           { this.setState({message: result.message}); }.bind(this),
+		        error:   function(xhr, status, err) { console.log(err);                 }.bind(this)
 	        });
         },
 
@@ -79,8 +72,7 @@
 
 
                 return (<div>
-                            You are logged in {this.state.test} {this.state.logged}
-                            <Button onClick={this.callRestEndpoint} bsStyle='success'>Call rest endpoint</Button>
+                            You are logged in as {this.state.logged} and {this.state.message}
                         </div>);
             }
 

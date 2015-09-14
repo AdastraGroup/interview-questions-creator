@@ -22,10 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
-import java.net.URI;
-import java.security.Principal;
-import java.util.Collections;
-import java.util.Map;
 
 @EnableAutoConfiguration
 @Import(RepositoryRestMvcConfiguration.class)
@@ -51,7 +47,7 @@ public class RestApiApplication extends RepositoryRestMvcConfiguration {
     @RequestMapping("/test")
     @ResponseBody
     public String test() {
-        return "{\"info\":\"you did it!!!\"}";
+        return "{\"message\":\"you called protected rest endpoint!!!\"}";
     }
 
 

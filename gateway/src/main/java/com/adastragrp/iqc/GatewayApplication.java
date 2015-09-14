@@ -45,7 +45,7 @@ public class GatewayApplication {
     @RequestMapping("/user")
     @ResponseBody
     public Map<String, Object> user(Principal user) {
-        return Collections.<String, Object> singletonMap("name", user.getName());
+        return Collections.<String, Object>singletonMap("name", user.getName());
     }
 
 
@@ -58,7 +58,7 @@ public class GatewayApplication {
 
             auth.inMemoryAuthentication()
                     .withUser("user").password("password").roles("USER")
-                        .and()
+                    .and()
                     .withUser("admin").password("password").roles("ADMIN");
         }
 
